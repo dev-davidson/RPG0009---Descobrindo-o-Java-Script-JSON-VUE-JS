@@ -1,0 +1,69 @@
+<!-- ordenando.html -->
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./css/style.css">
+  <script src="./js/ordenando.js"></script>
+  <title>Ordenando Valores</title>
+</head>
+<body>
+  <h1>Ordenando Valores</h1>
+  <label for="valor">Valor:</label><br>
+  <input type="number" id="valor"><br>
+  <button onclick="adicionar()">Adicionar</button><br><br>
+
+  <label for="algoritmo">Algoritmo:</label><br>
+  <select id="algoritmo">
+    <option value="bubble">Bubble Sort</option>
+    <option value="selection">Selection Sort</option>
+    <option value="quick">Quick Sort</option>
+  </select><br>
+
+  <button onclick="ordenar()">Ordenar</button>
+  <button onclick="misturar()">Misturar</button>
+
+  <ul id="valores"></ul>
+
+  <script>
+    function adicionar() {
+      const valorInput = document.getElementById('valor');
+      const valoresLista = document.getElementById('valores');
+      const valor = parseInt(valorInput.value);
+      if (!isNaN(valor)) {
+        const elementoLi = document.createElement('li');
+        const textoValor = document.createTextNode(valor);
+        elementoLi.appendChild(textoValor);
+        valoresLista.appendChild(elementoLi);
+        valorInput.value = '';
+      }
+    }
+
+    function ordenar() {
+      const valoresLista = document.getElementById('valores');
+      const algoritmoSelecionado = document.getElementById('algoritmo').value;
+      const valores = Array.from(valoresLista.children).map((item) => parseInt(item.innerHTML));
+
+      if (algoritmoSelecionado === 'bubble') {
+        bubble_sort(valores);
+      } else if (algoritmoSelecionado === 'selection') {
+        selection_sort(valores);
+      } else if (algoritmoSelecionado === 'quick') {
+        quick_sort(valores);
+      }
+
+      valoresLista.innerHTML = valores.map((item) => `<li>${item}</li>`).join('');
+    }
+
+    function misturar() {
+      const valoresLista = document.getElementById('valores');
+      const valores = Array.from(valoresLista.children).map((item) => parseInt(item.innerHTML));
+      embaralhar(valores, valores.length * 2);
+      valoresLista.innerHTML = valores.map((item) => `<li>${item}</li>`).join('');
+    }
+  </script>
+</body>
+</html>
+
